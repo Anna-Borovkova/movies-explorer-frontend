@@ -1,0 +1,28 @@
+.header {
+  margin: 0;
+  padding: 18px 70px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__main-page {
+  background-color: rgba(7, 48, 66, 1);
+}
+
+.header__movies-page {
+  background-color: rgba(32, 32, 32, 1);
+}
+
+@media (max-width: 780px) {
+  .header {
+    padding: 18px 30px;
+  }
+}
+
+@media (max-width: 450px) {
+  .header {
+    padding: 18px 14px;
+  }
+}
