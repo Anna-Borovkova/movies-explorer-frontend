@@ -2,7 +2,7 @@ import "./FilterCheckbox.css";
 
 function FilterCheckbox(props) {
   //посмотреть, как будет выглядеть неактивный чекбокс
-  const isActive = true;
+  const isActive = false;
 
   const switcherClassName = isActive
     ? "checkbox__switcher checkbox__switcher_active"

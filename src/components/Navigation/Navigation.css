@@ -72,11 +72,11 @@
   background-repeat: no-repeat;
 }
 
-.profile-image__main-page {
+.profile-image_main-page {
   background-image: url(../../images/profile-image__main-page.svg);
 }
 
-.profile-image__movies-page {
+.profile-image_movies-page {
   background-image: url(../../images/profile-image__movies-page.svg);
 }
 

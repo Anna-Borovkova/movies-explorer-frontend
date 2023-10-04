@@ -46,6 +46,7 @@
 }
 
 .search__form-input:focus {
+  border-bottom: 1px solid rgba(66, 133, 244, 1);
   outline: none;
 }
 
@@ -73,7 +74,7 @@
   transition: 0.5s;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .search {
     padding-bottom: 109px;
     margin-bottom: 8px;
@@ -88,7 +89,7 @@
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 600px) {
   .search {
     padding-bottom: 44px;
     margin-bottom: 10px;

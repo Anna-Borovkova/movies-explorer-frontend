@@ -11,14 +11,18 @@ function AboutMe(props) {
       </div>
       <div className="about-me__profile">
         <div className="about-me__text">
-          <h3 className="about-me__name">Анна</h3>
-          <p className="about-me__status">Студент курса фронтенд разработки</p>
-          <p className="about-me__description">
-            Я родилась в Кинешме, закончила факультет экономики МГУ. 5 лет
-            работаю бизнес-аналитиком. Прошлой осенью у меня родился сын. Во
-            время декретного отпуска я решила поучиться чему-то новому и выбрала
-            курс JavaScript разработчика.
-          </p>
+          <div className="about-me__private">
+            <h3 className="about-me__name">Анна</h3>
+            <p className="about-me__status">
+              Студент курса фронтенд разработки
+            </p>
+            <p className="about-me__description">
+              Я родилась в Кинешме, закончила факультет экономики МГУ. 5 лет
+              работаю бизнес-аналитиком. Прошлой осенью у меня родился сын. Во
+              время декретного отпуска я решила поучиться чему-то новому и
+              выбрала курс JavaScript разработчика.
+            </p>
+          </div>
           <a
             href="https://github.com/Anna-Borovkova"
             className="about-me__link"

@@ -9,6 +9,7 @@ function Portfolio(props) {
           <a
             href="https://github.com/Anna-Borovkova/how-to-learn"
             className="portfolio__link"
+            target="_blank"
           >
             Статичный сайт
           </a>
@@ -17,6 +18,7 @@ function Portfolio(props) {
           <a
             href="https://github.com/Anna-Borovkova/russian-travel"
             className="portfolio__link"
+            target="_blank"
           >
             Адаптивный сайт
           </a>
@@ -25,8 +27,10 @@ function Portfolio(props) {
           <a
             href="https://github.com/Anna-Borovkova/react-mesto-api-full-gha"
             className="portfolio__link"
+            target="_blank"
           >
-            Одностраничное приложение
+            <div>Одностраничное приложение</div>
+            
           </a>
         </li>
       </ul>

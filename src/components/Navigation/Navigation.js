@@ -22,7 +22,6 @@ function Navigation(props) {
                   isActive ? "navigation__path_active" : ""
                 }`
               }
-              type="button"
               aria-label="Главная."
             >
               Главная
@@ -34,7 +33,6 @@ function Navigation(props) {
                   isActive ? "navigation__path_active" : ""
                 }`
               }
-              type="button"
               aria-label="Фильмы"
             >
               Фильмы
@@ -46,7 +44,6 @@ function Navigation(props) {
                   isActive ? "navigation__path_active" : ""
                 }`
               }
-              type="button"
               aria-label="Сохраненные фильмы"
             >
               Сохранённые фильмы
@@ -59,13 +56,12 @@ function Navigation(props) {
                 isActive ? "navigation__path_active" : ""
               } ${
                 props.menuOpened
-                  ? "profile-image__movies-page"
+                  ? "profile-image profile-image_movies-page"
                   : props.profileIconClassName === "profile__main-page"
-                  ? "profile-image__main-page"
-                  : "profile-image__movies-page"
+                  ? "profile-image profile-image_main-page"
+                  : "profile-image profile-image_movies-page"
               }`
             }
-            type="button"
             aria-label="Аккаунт"
           >
             Аккаунт

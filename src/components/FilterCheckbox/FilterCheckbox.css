@@ -26,6 +26,7 @@
   background-color: rgba(245, 245, 245, 1);
   box-sizing: border-box;
   margin: 0 2px;
+  border: 1px solid rgba(255, 255, 255, 1);
 }
 
 .checkbox__switcher_active {
@@ -53,13 +54,13 @@
   color: rgba(255, 255, 255, 1);
 }
 
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .checkbox {
     padding: 0 20px 0 20px;
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 600px) {
   .checkbox {
     background-color: rgba(32, 32, 32, 1);
   }

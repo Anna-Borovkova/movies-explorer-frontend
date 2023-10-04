@@ -13,7 +13,6 @@ import "./App.css";
 function App() {
   const location = useLocation();
 
-
   // поменять экран для авторизованного или неавторизованного пользователя
   const loggedIn = true;
 
@@ -28,8 +27,8 @@ function App() {
 
   const headerClassName =
     location.pathname === "/"
-      ? "header header__main-page"
-      : "header header__movies-page";
+      ? "header header_main-page"
+      : "header header_movies-page";
 
   const profileIconClassName =
     location.pathname === "/" ? "profile__main-page" : "profile__movies-page";
@@ -43,12 +42,14 @@ function App() {
     <div className="body">
       <div className="page">
         {isHeaderInclude ? (
-          <Header
-            headerClassName={headerClassName}
-            loggedIn={loggedIn}
-            profileIconClassName={profileIconClassName}
-            menuOpened={menuOpened}
-          />
+          <header>
+            <Header
+              headerClassName={headerClassName}
+              loggedIn={loggedIn}
+              profileIconClassName={profileIconClassName}
+              menuOpened={menuOpened}
+            />
+          </header>
         ) : null}
         <main className="content">
           <Routes>
