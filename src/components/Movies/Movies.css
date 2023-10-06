@@ -1,0 +1,54 @@
+.movies {
+  background-color: rgba(32, 32, 32, 1);
+  padding: 65px 70px 85px 70px;
+}
+
+.movies-card__save-button {
+  margin: 0;
+  padding: 0;
+  grid-area: button;
+  background-color: rgba(49, 49, 49, 1);
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 24px;
+  background-image: url(../../images/save-disabled.svg);
+  cursor: pointer;
+  background-position: center;
+  background-size: 10px 8px;
+  background-repeat: no-repeat;
+}
+
+.movies-card__save-button:hover {
+  opacity: 0.8;
+  transition: 0.5s;
+}
+
+.movies-card__save-button_active {
+  background-image: url(../../images/save-active.svg);
+}
+
+.movies__not-found {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 10px;
+  color: rgba(255, 255, 255, 1);
+}
+
+@media (max-width: 780px) {
+  .movies {
+    padding: 78px 30px 80px 30px;
+  }
+}
+
+@media (max-width: 450px) {
+  .movies {
+    box-sizing: border-box;
+    padding: 78px 10px 80px 10px;
+    margin: 0 auto;
+  }
+}

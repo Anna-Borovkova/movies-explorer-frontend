@@ -1,0 +1,86 @@
+@import "../../vendor/fonts/fonts.css";
+
+.not-found-error {
+  background-color: rgba(32, 32, 32, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  height: 100vh;
+}
+
+.not-found-error-about {
+  margin: 0;
+  padding: 246px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.not-found-error-title {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 140px;
+  line-height: 170px;
+  color: rgba(255, 255, 255, 1);
+}
+
+.not-found-error-subtitle {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: rgba(255, 255, 255, 1);
+}
+
+.not-found-error-link {
+  margin: 0;
+  padding-top: 184px;
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(66, 133, 244, 1);
+  background: transparent;
+  text-decoration: none;
+}
+
+.not-found-error-link:hover {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: 0.5s;
+}
+
+@media (max-width: 780px) {
+  .not-found-error-about {
+    padding: 408px 0 0 0;
+  }
+}
+
+@media (max-width: 450px) {
+  .not-found-error-about {
+    padding: 329px 0 0 0;
+  }
+
+  .not-found-error-title {
+    font-size: 80px;
+    line-height: 97px;
+  }
+  .not-found-error-subtitle {
+    padding-top: 10px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .not-found-error-link {
+    padding-top: 284px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

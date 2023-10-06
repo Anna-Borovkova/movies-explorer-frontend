@@ -1,0 +1,23 @@
+@import "../../vendor/fonts/fonts.css";
+
+.section-title {
+  margin: 0;
+  padding: 0 0 23px 0;
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  color: rgba(255, 255, 255, 1);
+  border-bottom: 1px solid rgba(218, 218, 218, 1);
+  width: 100%;
+  letter-spacing: -1px;
+}
+
+@media (max-width: 450px) {
+  .section-title {
+    padding: 0 0 28px 0;
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

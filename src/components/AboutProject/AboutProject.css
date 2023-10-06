@@ -1,0 +1,164 @@
+.about-project {
+  background-color: rgba(32, 32, 32, 1);
+  padding: 110px 70px;
+}
+
+.about-project__title {
+  margin: 0 0 70px 0;
+}
+
+.about-project__list {
+  margin: 0;
+  padding: 0 0 110px 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 40px;
+  list-style: none;
+}
+
+.about-project__item-title {
+  margin: 0;
+  padding: 0 0 26px 0;
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: rgba(255, 255, 255, 1);
+  letter-spacing: -0.8px;
+}
+
+.about-project__item-description {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgba(255, 255, 255, 1);
+}
+
+.about-project__timetable {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-areas:
+    "backend-duration frontend-duration"
+    "backend-description frontend-description";
+  row-gap: 14px;
+  align-items: center;
+}
+
+.about-project__timetable-duration {
+  margin: 0;
+  padding: 9px 0;
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
+.about-project__timetable-duration_type_backend {
+  color: rgba(0, 0, 0, 1);
+  grid-area: backend-duration;
+  background-color: rgba(61, 220, 132, 1);
+}
+
+.about-project__timetable-duration_type_frontend {
+  color: rgba(255, 255, 255, 1);
+  grid-area: frontend-duration;
+  background-color: rgba(48, 48, 48, 1);
+}
+
+.about-project__timetable-description {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(139, 139, 139, 1);
+  text-align: center;
+}
+
+.about-project__timetable-description_type_backend {
+  grid-area: backend-description;
+}
+
+.about-project__timetable-description_type_frontend {
+  grid-area: frontend-description;
+}
+
+@media (max-width: 780px) {
+  .about-project {
+    padding: 90px 50px;
+  }
+  .about-project__list {
+    padding: 0 0 90px 0;
+    grid-gap: 30px;
+  }
+
+  .about-project__item-title {
+    padding: 0 0 24px 0;
+  }
+
+  .about-project__item-description {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .about-project__timetable-duration {
+    margin-top: 2px;
+    padding: 9px 0;
+  }
+}
+
+@media (max-width: 450px) {
+  .about-project {
+    background-color: rgba(32, 32, 32, 1);
+    padding: 70px 18px;
+  }
+
+  .about-project__title {
+    margin: 0 0 60px 0;
+  }
+
+  .about-project__list {
+    padding: 0 0 56px 0;
+    grid-template-columns: 1fr;
+    grid-gap: 56px;
+  }
+
+  .about-project__item-title {
+    padding: 0 0 16px 0;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .about-project__item-description {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .about-project__timetable {
+    grid-template-columns: 3.9fr 7fr;
+    row-gap: 13px;
+  }
+
+  .about-project__timetable-duration {
+    padding: 11px 0;
+    font-size: 11px;
+    line-height: 13px;
+  }
+
+  .about-project__timetable-description {
+    padding: 0;
+    font-size: 11px;
+    line-height: 13px;
+  }
+}
