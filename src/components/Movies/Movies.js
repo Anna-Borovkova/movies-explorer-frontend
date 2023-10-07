@@ -3,6 +3,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import AddMovies from "../AddMovies/AddMovies";
 import MovieImageFirst from "../../images/movie-image-1.png";
+import {moviesApi} from "../../utils/Api/MoviesApi";
 
 function Movies(props) {
   // посмотреть как будет выглядеть поставленный лайк
@@ -15,9 +16,14 @@ function Movies(props) {
     ? "movies-card__save-button movies-card__save-button_active"
     : "movies-card__save-button";
 
+  function handleSearchMovies(evt) {
+    evt.preventDefault();
+    moviesApi.getAllMovies().then((res) => console.log(res));
+  }
+
   return (
     <div className="movies">
-      <SearchForm />
+      <SearchForm onSearch={handleSearchMovies} />
       {notFound ? (
         <div className="movies__not-found">
           Фильмов по данным критериям не найдено
