@@ -8,11 +8,11 @@ function Header(props) {
     <div className={props.headerClassName}>
       <Logo />
       <Navigation
-        loggedIn={props.loggedIn}
+        isLoggedIn={props.isLoggedIn}
         profileIconClassName={props.profileIconClassName}
         menuOpened={props.menuOpened}
       />
-      <Menu />
+      {props.isLoggedIn && <Menu />}
     </div>
   );
 }

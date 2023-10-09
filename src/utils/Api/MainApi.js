@@ -9,7 +9,7 @@ class MainApi {
     if (res.ok) {
       return res.json();
     } else {
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return Promise.reject(res.json());
     }
   }
 
@@ -34,7 +34,7 @@ class MainApi {
     });
   }
 
-  signIn(name, email, password) {
+  signIn(email, password) {
     return this._request("signin", {
       method: "POST",
       credentials: "include",
@@ -42,7 +42,6 @@ class MainApi {
         "Content-Type": this._contentType,
       },
       body: JSON.stringify({
-        name: name,
         password: password,
         email: email,
       }),
@@ -123,7 +122,7 @@ class MainApi {
 }
 
 export const mainApi = new MainApi({
-  baseUrl: "api.bitfilms.nomoredomainsicu.ru",
+  baseUrl: "https://api.bitfilms.nomoredomainsicu.ru",
   headers: {
     "Content-Type": "application/json",
   },

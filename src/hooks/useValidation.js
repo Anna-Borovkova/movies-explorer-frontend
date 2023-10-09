@@ -1,42 +1,38 @@
-import React, { useCallback } from "react";
-
-//хук управления формой
-// export function useForm() {
-//   const [values, setValues] = React.useState({});
-
-//   const handleChange = (event) => {
-//     const target = event.target;
-//     const value = target.value;
-//     const name = target.name;
-//     setValues({...values, [name]: value});
-//   };
-
-//   return {values, handleChange, setValues};
-// }
+import { useState, useCallback, useEffect } from "react";
 
 //хук управления формой и валидации формы
-// export function useFormWithValidation() {
-//   const [values, setValues] = React.useState({});
-//   const [errors, setErrors] = React.useState({});
-//   const [isValid, setIsValid] = React.useState(false);
+export function useFormWithValidation(
+  initialValue = {},
+  initialError,
+  initialIsValid
+) {
+  const [values, setValues] = useState(initialValue);
+  const [errors, setErrors] = useState(initialError);
+  const [isValid, setIsValid] = useState(initialIsValid);
 
-//   const handleChange = (event) => {
-//     const target = event.target;
-//     const name = target.name;
-//     const value = target.value;
-//     setValues({...values, [name]: value});
-//     setErrors({...errors, [name]: target.validationMessage });
-//     setIsValid(target.closest("form").checkValidity());
-//   };
+  // useEffect(() => {
+  //   setIsFormValid(Object.values(inputsValidity).every(validity => validity === true));
+  // }, [inputsValidity])
 
-//   const resetForm = useCallback(
-//     (newValues = {}, newErrors = {}, newIsValid = false) => {
-//       setValues(newValues);
-//       setErrors(newErrors);
-//       setIsValid(newIsValid);
-//     },
-//     [setValues, setErrors, setIsValid]
-//   );
+  const handleChange = (event) => {
+    // const target = event.target;
+    // const name = target.name;
+    // const value = target.value;
+    const { value, name } = event.target;
+    setValues({ ...values, [name]: value });
+    setErrors({...errors, [name]: event.target.validationMessage });
+    setIsValid(event.target.closest("form").checkValidity());
+  };
 
-//   return { values, handleChange, errors, isValid, resetForm };
-// }
+  // const resetForm = useCallback(
+  //   (newValues = {}, newErrors = {}, newIsValid = false) => {
+  //     setValues(newValues);
+  //     setErrors(newErrors);
+  //     setIsValid(newIsValid);
+  //   },
+  //   [setValues, setErrors, setIsValid]
+  // );
+
+  // return { values, handleChange, errors, isValid, resetForm };
+  return { values, handleChange, setValues };
+}

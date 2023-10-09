@@ -3,7 +3,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import AddMovies from "../AddMovies/AddMovies";
 import MovieImageFirst from "../../images/movie-image-1.png";
-import {moviesApi} from "../../utils/Api/MoviesApi";
+import { moviesApi } from "../../utils/Api/MoviesApi";
 
 function Movies(props) {
   // посмотреть как будет выглядеть поставленный лайк

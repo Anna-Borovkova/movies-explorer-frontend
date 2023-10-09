@@ -5,10 +5,14 @@ function Navigation(props) {
   return (
     <div
       className={
-        props.menuOpened ? "navigation navigation_opened" : "navigation"
+        props.isLoggedIn
+          ? props.menuOpened
+            ? "navigation navigation_opened"
+            : "navigation navigation_closed"
+          : "navigation navigation__unregistrated"
       }
     >
-      {props.loggedIn ? (
+      {props.isLoggedIn ? (
         <div className="navigation__container">
           <div className="navigation__close-button">
             <div className="navigation__close-button-line"></div>
@@ -71,7 +75,7 @@ function Navigation(props) {
         <>
           <Link
             to="/signup"
-            className="navigation__path navigation__path_signup"
+            className="navigation__unregistrated navigation__unregistrated_signup"
             type="button"
             aria-label="Регистрация."
           >
@@ -79,7 +83,7 @@ function Navigation(props) {
           </Link>
           <Link
             to="/signin"
-            className="navigation__path navigation__path_signin"
+            className="navigation__unregistrated navigation__unregistrated_signin"
             type="button"
             aria-label="Войти."
           >
