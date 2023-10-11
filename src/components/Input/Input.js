@@ -1,6 +1,17 @@
 import "./Input.css";
 
-function Input({ title, type, name, id, value, onChange, validationMessage }) {
+function Input({
+  title,
+  type,
+  name,
+  id,
+  value,
+  onChange,
+  pattern,
+  minLength,
+  maxLength,
+  error,
+}) {
   return (
     <div className="input">
       <p className="input__title">{title}</p>
@@ -12,8 +23,11 @@ function Input({ title, type, name, id, value, onChange, validationMessage }) {
         id={id}
         value={value}
         onChange={onChange}
+        pattern={pattern}
+        minLength={minLength}
+        maxLength={maxLength}
       />
-      <span className="input__error-message">{validationMessage}</span>
+      <span className="input__error-message">{error}</span>
     </div>
   );
 }

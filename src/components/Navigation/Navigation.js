@@ -1,12 +1,17 @@
 import "./Navigation.css";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 function Navigation(props) {
+  const location = useLocation();
+
+  const profileIconClassName =
+    location.pathname === "/" ? "profile__main-page" : "profile__movies-page";
+
   return (
     <div
       className={
         props.isLoggedIn
-          ? props.menuOpened
+          ? props.isMenuOpened
             ? "navigation navigation_opened"
             : "navigation navigation_closed"
           : "navigation navigation__unregistrated"
@@ -14,7 +19,7 @@ function Navigation(props) {
     >
       {props.isLoggedIn ? (
         <div className="navigation__container">
-          <div className="navigation__close-button">
+          <div className="navigation__close-button" onClick={props.onClick}>
             <div className="navigation__close-button-line"></div>
             <div className="navigation__close-button-line"></div>
           </div>
@@ -59,9 +64,9 @@ function Navigation(props) {
               `navigation__path navigation__path_profile ${
                 isActive ? "navigation__path_active" : ""
               } ${
-                props.menuOpened
+                props.isMenuOpened
                   ? "profile-image profile-image_movies-page"
-                  : props.profileIconClassName === "profile__main-page"
+                  : profileIconClassName === "profile__main-page"
                   ? "profile-image profile-image_main-page"
                   : "profile-image profile-image_movies-page"
               }`

@@ -6,15 +6,13 @@ import Input from "../Input/Input";
 import FormPage from "../FormPage/FormPage";
 import { useFormWithValidation } from "../../hooks/useValidation";
 import { mainApi } from "../../utils/Api/MainApi";
-import { errors } from "../../utils/config";
 
 function Login({ handleLogin }) {
-  const [isFormValid, setFormValid] = useState(true);
-
   const navigate = useNavigate();
   const [signInError, setSignInError] = useState("");
 
-  const { values, error, handleChange } = useFormWithValidation({});
+  const { values, errors, handleChange, isValid, setIsValid, resetForm } =
+    useFormWithValidation({});
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -37,11 +35,10 @@ function Login({ handleLogin }) {
         buttonText="Войти"
         errorMessage={signInError}
         questionText="Ещё не зарегистрированы?"
-        errorMassage="Что-то пошло не так..."
         linkPath="/signup"
         linkText="Регистрация"
         onSubmit={handleSubmit}
-        isFormValid={isFormValid}
+        isFormValid={isValid}
       >
         <Input
           title="E-mail"
@@ -50,7 +47,8 @@ function Login({ handleLogin }) {
           id="signin-email-input"
           value={values.email || ""}
           onChange={handleChange}
-          validationMessage="Введены некорректные данные"
+          pattern="\w+@\w+\.\w+"
+          error={errors.email}
         />
         <Input
           title="Пароль"
@@ -59,7 +57,8 @@ function Login({ handleLogin }) {
           id="signin-password-input"
           value={values.password || ""}
           onChange={handleChange}
-          validationMessage="Введены некорректные данные"
+          pattern="^.{2,30}$"
+          error={errors.password}
         />
       </Form>
     </FormPage>

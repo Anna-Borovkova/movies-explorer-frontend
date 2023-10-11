@@ -1,5 +1,4 @@
 import "./Profile.css";
-import { useNavigate, Link } from "react-router-dom";
 
 function Profile(props) {
   const inputsDisabled = true;

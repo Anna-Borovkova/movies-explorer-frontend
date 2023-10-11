@@ -6,21 +6,13 @@ import Input from "../Input/Input";
 import FormPage from "../FormPage/FormPage";
 import { useFormWithValidation } from "../../hooks/useValidation";
 import { mainApi } from "../../utils/Api/MainApi";
-import { errors } from "../../utils/config";
 
 function Register({ handleLogin }) {
-  const [isFormValid, setFormValid] = useState(false);
-
   const navigate = useNavigate();
+
   const [signUpError, setSignUpError] = useState("");
-
-  // const { values, error, handleChange } = useFormWithValidation(
-  //   { name: "", email: "", password: "" },
-  //   { name: "", email: "", password: "" },
-  //   { name: false, email: false, password: false }
-  // );
-
-  const { values, error, handleChange } = useFormWithValidation({});
+  const { values, errors, handleChange, isValid, setIsValid, resetForm } =
+    useFormWithValidation({});
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -49,7 +41,7 @@ function Register({ handleLogin }) {
         linkPath="/signin"
         linkText="Войти"
         onSubmit={handleSubmit}
-        isFormValid={isFormValid}
+        isFormValid={isValid}
       >
         <Input
           title="Имя"
@@ -58,7 +50,8 @@ function Register({ handleLogin }) {
           id="name-input"
           value={values.name || ""}
           onChange={handleChange}
-          validationMessage="Введены некорректные данные"
+          pattern="^[A-zА-яё\s\-]{2,30}$"
+          error={errors.name}
         />
         <Input
           title="E-mail"
@@ -67,7 +60,8 @@ function Register({ handleLogin }) {
           id="signup-email-input"
           value={values.email || ""}
           onChange={handleChange}
-          validationMessage="Введены некорректные данные"
+          pattern="\w+@\w+\.\w+"
+          error={errors.email}
         />
         <Input
           title="Пароль"
@@ -76,7 +70,8 @@ function Register({ handleLogin }) {
           id="signup-password-input"
           value={values.password || ""}
           onChange={handleChange}
-          validationMessage="Введены некорректные данные"
+          pattern="^.{2,30}$"
+          error={errors.password}
         />
       </Form>
     </FormPage>

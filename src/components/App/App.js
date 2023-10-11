@@ -22,21 +22,12 @@ function App() {
   // }
 
   // для среднего и узкого экрана посмотреть вид открытого меню
-  const menuOpened = true;
 
   const isHeaderInclude =
     location.pathname === "/" ||
     location.pathname === "/movies" ||
     location.pathname === "/saved-movies" ||
     location.pathname === "/profile";
-
-  const headerClassName =
-    location.pathname === "/"
-      ? "header header_main-page"
-      : "header header_movies-page";
-
-  const profileIconClassName =
-    location.pathname === "/" ? "profile__main-page" : "profile__movies-page";
 
   const isFooterInclude =
     location.pathname === "/" ||
@@ -48,12 +39,7 @@ function App() {
       <div className="page">
         {isHeaderInclude ? (
           <header>
-            <Header
-              headerClassName={headerClassName}
-              isLoggedIn={isLoggedIn}
-              profileIconClassName={profileIconClassName}
-              menuOpened={menuOpened}
-            />
+            <Header isLoggedIn={isLoggedIn} />
           </header>
         ) : null}
         <main className="content">

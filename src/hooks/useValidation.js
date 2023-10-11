@@ -1,38 +1,34 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
+import { errorsMessages } from "../utils/config";
 
-//хук управления формой и валидации формы
-export function useFormWithValidation(
-  initialValue = {},
-  initialError,
-  initialIsValid
-) {
-  const [values, setValues] = useState(initialValue);
-  const [errors, setErrors] = useState(initialError);
-  const [isValid, setIsValid] = useState(initialIsValid);
-
-  // useEffect(() => {
-  //   setIsFormValid(Object.values(inputsValidity).every(validity => validity === true));
-  // }, [inputsValidity])
+export function useFormWithValidation() {
+  const [values, setValues] = useState({});
+  const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(false);
 
   const handleChange = (event) => {
-    // const target = event.target;
-    // const name = target.name;
-    // const value = target.value;
-    const { value, name } = event.target;
+    const input = event.target;
+    const { value, name } = input;
+
+    if (input.validity.patternMismatch) {
+      input.setCustomValidity(errorsMessages[name]);
+    } else {
+      input.setCustomValidity("");
+    }
+
     setValues({ ...values, [name]: value });
-    setErrors({...errors, [name]: event.target.validationMessage });
-    setIsValid(event.target.closest("form").checkValidity());
+    setErrors({ ...errors, [name]: input.validationMessage });
+    setIsValid(input.closest("form").checkValidity());
   };
 
-  // const resetForm = useCallback(
-  //   (newValues = {}, newErrors = {}, newIsValid = false) => {
-  //     setValues(newValues);
-  //     setErrors(newErrors);
-  //     setIsValid(newIsValid);
-  //   },
-  //   [setValues, setErrors, setIsValid]
-  // );
+  const resetForm = useCallback(
+    (newValues = {}, newErrors = {}, newIsValid = false) => {
+      setValues(newValues);
+      setErrors(newErrors);
+      setIsValid(newIsValid);
+    },
+    [setValues, setErrors, setIsValid]
+  );
 
-  // return { values, handleChange, errors, isValid, resetForm };
-  return { values, handleChange, setValues };
+  return { values, errors, handleChange, isValid, setIsValid, resetForm };
 }
