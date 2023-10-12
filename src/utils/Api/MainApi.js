@@ -19,6 +19,26 @@ class MainApi {
     );
   }
 
+  signIn(email, password) {
+    return this._request("signin", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": this._contentType,
+      },
+      body: JSON.stringify({
+        password: password,
+        email: email,
+      }),
+    });
+  }
+
+  getUserInfo() {
+    return this._request("users/me", {
+      credentials: "include",
+    });
+  }
+
   signUp(name, email, password) {
     return this._request("signup", {
       method: "POST",
@@ -34,28 +54,8 @@ class MainApi {
     });
   }
 
-  signIn(email, password) {
-    return this._request("signin", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": this._contentType,
-      },
-      body: JSON.stringify({
-        password: password,
-        email: email,
-      }),
-    });
-  }
-
   signOut() {
     return this._request("signout", {
-      credentials: "include",
-    });
-  }
-
-  getUserInfo() {
-    return this._request("users/me", {
       credentials: "include",
     });
   }
@@ -122,7 +122,8 @@ class MainApi {
 }
 
 export const mainApi = new MainApi({
-  baseUrl: "https://api.bitfilms.nomoredomainsicu.ru",
+  // baseUrl: "https://api.bitfilms.nomoredomainsicu.ru",
+  baseUrl: "http://localhost:3001",
   headers: {
     "Content-Type": "application/json",
   },

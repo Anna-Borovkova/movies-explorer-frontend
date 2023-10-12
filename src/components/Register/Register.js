@@ -7,7 +7,7 @@ import FormPage from "../FormPage/FormPage";
 import { useFormWithValidation } from "../../hooks/useValidation";
 import { mainApi } from "../../utils/Api/MainApi";
 
-function Register({ handleLogin }) {
+function Register({ handleSingIn }) {
   const navigate = useNavigate();
 
   const [signUpError, setSignUpError] = useState("");
@@ -22,7 +22,7 @@ function Register({ handleLogin }) {
         return mainApi.signIn(values.email, values.password);
       })
       .then(() => {
-        handleLogin();
+        handleSingIn();
         navigate("/movies");
       })
       .catch((err) => {

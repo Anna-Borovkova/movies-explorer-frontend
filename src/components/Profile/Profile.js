@@ -1,6 +1,6 @@
 import "./Profile.css";
 
-function Profile(props) {
+function Profile({ handleSignOut }) {
   const inputsDisabled = true;
   const errorMessage = "Что-то пошло не так";
 
@@ -55,7 +55,9 @@ function Profile(props) {
         </form>
       </section>
       <section className="profile__exit">
-        <button className="profile__exit-button">Выйти из аккаунта</button>
+        <button className="profile__exit-button" onClick={handleSignOut}>
+          Выйти из аккаунта
+        </button>
       </section>
     </div>
   );

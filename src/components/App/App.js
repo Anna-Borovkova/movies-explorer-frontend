@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { useLocation, Route, Routes, Navigate } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
@@ -10,18 +16,20 @@ import Register from "../Register/Register";
 import Footer from "../Footer/Footer";
 import NotFound from "../NotFound/NotFound";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import CurrentUserContext from "../../context/CurrentUserContext";
+import { mainApi } from "../../utils/Api/MainApi";
 import "./App.css";
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [currentUserAuth, setCurrentUserAuth] = useState(null);
 
   // поменять экран для авторизованного или неавторизованного пользователя
   //   setLoggedIn(true);
   // }
-
-  // для среднего и узкого экрана посмотреть вид открытого меню
 
   const isHeaderInclude =
     location.pathname === "/" ||
@@ -34,9 +42,46 @@ function App() {
     location.pathname === "/movies" ||
     location.pathname === "/saved-movies";
 
+  const checkToken = () => {
+    mainApi
+      .getUserInfo()
+      .then((res) => {
+        if (!res) {
+          return;
+        }
+        setCurrentUserAuth(res);
+        setLoggedIn(true);
+        navigate("/");
+      })
+      .catch((err) => {
+        setLoggedIn(false);
+        setCurrentUserAuth(null);
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    checkToken();
+  }, [isLoggedIn]);
+
+  function handleSignOut() {
+    mainApi
+      .signOut()
+      .then((res) => {
+        setCurrentUserAuth(null);
+        setLoggedIn(false);
+        navigate("/signin");
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <div className="body">
       <div className="page">
+        {/* <CurrentUserContext.Provider value={currentUser}> */}
         {isHeaderInclude ? (
           <header>
             <Header isLoggedIn={isLoggedIn} />
@@ -60,7 +105,11 @@ function App() {
             <Route
               path="/profile"
               element={
-                <ProtectedRoute isLoggedIn={isLoggedIn} element={Profile} />
+                <ProtectedRoute
+                  isLoggedIn={isLoggedIn}
+                  handleSignOut={handleSignOut}
+                  element={Profile}
+                />
               }
             ></Route>
             <Route
@@ -69,7 +118,7 @@ function App() {
                 isLoggedIn ? (
                   <Navigate to="/" />
                 ) : (
-                  <Register handleLogin={() => setLoggedIn(true)} />
+                  <Register handleSingIn={() => setLoggedIn(true)} />
                 )
               }
             />
@@ -88,6 +137,7 @@ function App() {
           </Routes>
         </main>
         {isFooterInclude ? <Footer /> : null}
+        {/* </CurrentUserContext.Provider> */}
       </div>
     </div>
   );
