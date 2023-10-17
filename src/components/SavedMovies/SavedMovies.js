@@ -20,6 +20,7 @@ function SavedMovies(props) {
           title="Киноальманах «100 лет дизайна»"
           duration="1ч 42м"
           img={MovieImageSecond}
+          trailerLink={""}
         >
           <button className="delete-button" />
         </MoviesCardList>

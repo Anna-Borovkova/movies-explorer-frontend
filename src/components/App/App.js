@@ -23,24 +23,20 @@ import "./App.css";
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
+  const path = location.pathname;
 
   const [isLoggedIn, setLoggedIn] = useState(false);
-  const [currentUserAuth, setCurrentUserAuth] = useState(null);
-
-  // поменять экран для авторизованного или неавторизованного пользователя
-  //   setLoggedIn(true);
-  // }
+  const [currentUser, setCurrentUser] = useState(null);
+  const [editProfileMessage, setEditProfileMessage] = useState("");
 
   const isHeaderInclude =
-    location.pathname === "/" ||
-    location.pathname === "/movies" ||
-    location.pathname === "/saved-movies" ||
-    location.pathname === "/profile";
+    path === "/" ||
+    path === "/movies" ||
+    path === "/saved-movies" ||
+    path === "/profile";
 
   const isFooterInclude =
-    location.pathname === "/" ||
-    location.pathname === "/movies" ||
-    location.pathname === "/saved-movies";
+    path === "/" || path === "/movies" || path === "/saved-movies";
 
   const checkToken = () => {
     mainApi
@@ -49,13 +45,13 @@ function App() {
         if (!res) {
           return;
         }
-        setCurrentUserAuth(res);
+        setCurrentUser(res);
         setLoggedIn(true);
-        navigate("/");
+        navigate(path);
       })
       .catch((err) => {
         setLoggedIn(false);
-        setCurrentUserAuth(null);
+        setCurrentUser(null);
         console.log(err);
       });
   };
@@ -68,76 +64,92 @@ function App() {
     mainApi
       .signOut()
       .then((res) => {
-        setCurrentUserAuth(null);
+        setCurrentUser(null);
         setLoggedIn(false);
-        navigate("/signin");
-        console.log(res);
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
+  function handleEditProfile(name, email) {
+    mainApi
+      .changeUserInfo(name, email)
+      .then((res) => {
+        setCurrentUser(res);
+        setEditProfileMessage(`Данные успешно обновлены`);
+      })
+      .catch((err) => {
+        err.then((e) => setEditProfileMessage(e.message));
+      });
+  }
+
   return (
     <div className="body">
       <div className="page">
-        {/* <CurrentUserContext.Provider value={currentUser}> */}
-        {isHeaderInclude ? (
-          <header>
-            <Header isLoggedIn={isLoggedIn} />
-          </header>
-        ) : null}
-        <main className="content">
-          <Routes>
-            <Route path="/" element={<Main />}></Route>
-            <Route
-              path="/movies"
-              element={
-                <ProtectedRoute isLoggedIn={isLoggedIn} element={Movies} />
-              }
-            ></Route>
-            <Route
-              path="/saved-movies"
-              element={
-                <ProtectedRoute isLoggedIn={isLoggedIn} element={SavedMovies} />
-              }
-            ></Route>
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute
-                  isLoggedIn={isLoggedIn}
-                  handleSignOut={handleSignOut}
-                  element={Profile}
-                />
-              }
-            ></Route>
-            <Route
-              path="/signup"
-              element={
-                isLoggedIn ? (
-                  <Navigate to="/" />
-                ) : (
-                  <Register handleSingIn={() => setLoggedIn(true)} />
-                )
-              }
-            />
-            <Route
-              path="/signin"
-              element={
-                isLoggedIn ? (
-                  <Navigate to="/" />
-                ) : (
-                  <Login handleLogin={() => setLoggedIn(true)} />
-                )
-              }
-            />
+        <CurrentUserContext.Provider value={currentUser}>
+          {isHeaderInclude ? (
+            <header>
+              <Header isLoggedIn={isLoggedIn} />
+            </header>
+          ) : null}
+          <main className="content">
+            <Routes>
+              <Route path="/" element={<Main />}></Route>
+              <Route
+                path="/movies"
+                element={
+                  <ProtectedRoute isLoggedIn={isLoggedIn} element={Movies} />
+                }
+              ></Route>
+              <Route
+                path="/saved-movies"
+                element={
+                  <ProtectedRoute
+                    isLoggedIn={isLoggedIn}
+                    element={SavedMovies}
+                  />
+                }
+              ></Route>
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute
+                    isLoggedIn={isLoggedIn}
+                    handleSignOut={handleSignOut}
+                    element={Profile}
+                    handleEditProfile={handleEditProfile}
+                    editProfileMessage={editProfileMessage}
+                  />
+                }
+              ></Route>
+              <Route
+                path="/signup"
+                element={
+                  isLoggedIn ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Register handleSingIn={() => setLoggedIn(true)} />
+                  )
+                }
+              />
+              <Route
+                path="/signin"
+                element={
+                  isLoggedIn ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Login handleLogin={() => setLoggedIn(true)} />
+                  )
+                }
+              />
 
-            <Route path="*" element={<NotFound />}></Route>
-          </Routes>
-        </main>
-        {isFooterInclude ? <Footer /> : null}
-        {/* </CurrentUserContext.Provider> */}
+              <Route path="*" element={<NotFound />}></Route>
+            </Routes>
+          </main>
+          {isFooterInclude ? <Footer /> : null}
+        </CurrentUserContext.Provider>
       </div>
     </div>
   );

@@ -9,7 +9,6 @@ export function useFormWithValidation() {
   const handleChange = (event) => {
     const input = event.target;
     const { value, name } = input;
-
     if (input.validity.patternMismatch) {
       input.setCustomValidity(errorsMessages[name]);
     } else {
@@ -30,5 +29,13 @@ export function useFormWithValidation() {
     [setValues, setErrors, setIsValid]
   );
 
-  return { values, errors, handleChange, isValid, setIsValid, resetForm };
+  return {
+    values,
+    setValues,
+    errors,
+    handleChange,
+    isValid,
+    setIsValid,
+    resetForm,
+  };
 }

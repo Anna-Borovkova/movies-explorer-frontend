@@ -9,6 +9,7 @@ function MoviesCardList(props) {
           title={props.title}
           duration={props.duration}
           img={props.img}
+          trailerLink={props.trailerLink}
         >
           {props.children}
         </MoviesCard>
@@ -16,6 +17,7 @@ function MoviesCardList(props) {
           title={props.title}
           duration={props.duration}
           img={props.img}
+          trailerLink={props.trailerLink}
         >
           {props.children}
         </MoviesCard>
@@ -23,6 +25,7 @@ function MoviesCardList(props) {
           title={props.title}
           duration={props.duration}
           img={props.img}
+          trailerLink={props.trailerLink}
         >
           {props.children}
         </MoviesCard>
@@ -30,6 +33,7 @@ function MoviesCardList(props) {
           title={props.title}
           duration={props.duration}
           img={props.img}
+          trailerLink={props.trailerLink}
         >
           {props.children}
         </MoviesCard>
@@ -37,6 +41,7 @@ function MoviesCardList(props) {
           title={props.title}
           duration={props.duration}
           img={props.img}
+          trailerLink={props.trailerLink}
         >
           {props.children}
         </MoviesCard>
@@ -44,6 +49,7 @@ function MoviesCardList(props) {
           title={props.title}
           duration={props.duration}
           img={props.img}
+          trailerLink={props.trailerLink}
         >
           {props.children}
         </MoviesCard>
@@ -51,6 +57,7 @@ function MoviesCardList(props) {
           title={props.title}
           duration={props.duration}
           img={props.img}
+          trailerLink={props.trailerLink}
         >
           {props.children}
         </MoviesCard>
