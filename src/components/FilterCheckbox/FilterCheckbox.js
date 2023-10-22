@@ -1,14 +1,7 @@
 import "./FilterCheckbox.css";
 
 function FilterCheckbox({ areShortMoviesSearched, handleSearchShortMovies }) {
-  const switcherClassName = areShortMoviesSearched
-    ? "checkbox__switcher checkbox__switcher_active"
-    : "checkbox__switcher";
-  const indicatorClassName = areShortMoviesSearched
-    ? "checkbox__indicator checkbox__indicator_active"
-    : "checkbox__indicator";
-
- return (
+  return (
     <div className="checkbox">
       <input
         className="checkbox__input"

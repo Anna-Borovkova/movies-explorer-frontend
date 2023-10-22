@@ -1,21 +1,13 @@
 import "./Profile.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useFormWithValidation } from "../../hooks/useValidation";
 import CurrentUserContext from "../../context/CurrentUserContext";
-import { mainApi } from "../../utils/Api/MainApi";
 
 function Profile({ handleSignOut, handleEditProfile, editProfileMessage }) {
   const currentUser = useContext(CurrentUserContext);
 
-  const {
-    values,
-    setValues,
-    errors,
-    handleChange,
-    isValid,
-    setIsValid,
-    resetForm,
-  } = useFormWithValidation({});
+  const { values, setValues, errors, handleChange, isValid } =
+    useFormWithValidation({});
 
   function handleSubmit(evt) {
     evt.preventDefault();

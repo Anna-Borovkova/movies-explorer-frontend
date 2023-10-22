@@ -6,6 +6,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
@@ -15,10 +16,11 @@ import Login from "../Login/Login";
 import Register from "../Register/Register";
 import Footer from "../Footer/Footer";
 import NotFound from "../NotFound/NotFound";
+
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import CurrentUserContext from "../../context/CurrentUserContext";
 import { mainApi } from "../../utils/Api/MainApi";
-import "./App.css";
+import { editMovieUrl, editMovieThumbnail } from "../../utils/utils";
 
 function App() {
   const location = useLocation();
@@ -28,6 +30,7 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [editProfileMessage, setEditProfileMessage] = useState("");
+  const [savedMovies, setSavedMovies] = useState([]);
 
   const isHeaderInclude =
     path === "/" ||
@@ -45,8 +48,8 @@ function App() {
         if (!res) {
           return;
         }
-        setCurrentUser(res);
         setLoggedIn(true);
+        setCurrentUser(res);
         navigate(path);
       })
       .catch((err) => {
@@ -60,12 +63,42 @@ function App() {
     checkToken();
   }, [isLoggedIn]);
 
+  function handleSignIn(name, email, password, setSignUpError) {
+    mainApi
+      .signUp(name, email, password)
+      .then(() => {
+        return mainApi.signIn(email, password);
+      })
+      .then((res) => {
+        setLoggedIn(true);
+        setCurrentUser(res);
+        navigate("/movies");
+      })
+      .catch((err) => {
+        err.then((e) => setSignUpError(e.message));
+      });
+  }
+
+  function handleLogin(email, password, setSignInError) {
+    mainApi
+      .signIn(email, password)
+      .then((res) => {
+        setLoggedIn(true);
+        setCurrentUser(res);
+        navigate("/movies");
+      })
+      .catch((err) => {
+        err.then((e) => setSignInError(e.message));
+      });
+  }
+
   function handleSignOut() {
     mainApi
       .signOut()
       .then((res) => {
         setCurrentUser(null);
         setLoggedIn(false);
+        localStorage.clear();
         navigate("/");
       })
       .catch((err) => {
@@ -85,6 +118,68 @@ function App() {
       });
   }
 
+  function onSaveMovieClick(movie) {
+    const editedMovieUrl = editMovieUrl(movie);
+    const editedMovieThumbnail = editMovieThumbnail(movie);
+    mainApi
+      .addMovie(
+        movie.country,
+        movie.director,
+        movie.duration,
+        movie.year,
+        movie.description,
+        editedMovieUrl,
+        movie.trailerLink,
+        editedMovieThumbnail,
+        movie.id,
+        movie.nameRU,
+        movie.nameEN
+      )
+      .then((movie) => setSavedMovies([movie, ...savedMovies]))
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function onDeleteMovieClick(movie) {
+    const savedMovie = savedMovies.find(
+      (m) => m.movieId === movie.movieId || m.movieId === movie.id
+    );
+    mainApi
+      .deleteMovie(savedMovie._id)
+      .then(() => {
+        const newSavedMovies = savedMovies.filter((m) => {
+          if (movie.movieId === m.movieId || movie.id === m.movieId) {
+            console.log(false);
+            return false;
+          } else {
+            console.log(true);
+            return true;
+          }
+        });
+        setSavedMovies(newSavedMovies);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    if (isLoggedIn && currentUser) {
+      mainApi
+        .getUserMovies()
+        .then((movies) => {
+          const userSavedMovies = movies.filter(
+            (m) => m.owner === currentUser._id
+          );
+          setSavedMovies(userSavedMovies);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [isLoggedIn, currentUser]);
+
   return (
     <div className="body">
       <div className="page">
@@ -100,7 +195,13 @@ function App() {
               <Route
                 path="/movies"
                 element={
-                  <ProtectedRoute isLoggedIn={isLoggedIn} element={Movies} />
+                  <ProtectedRoute
+                    isLoggedIn={isLoggedIn}
+                    element={Movies}
+                    savedMovies={savedMovies}
+                    onSaveMovieClick={onSaveMovieClick}
+                    onDeleteMovieClick={onDeleteMovieClick}
+                  />
                 }
               ></Route>
               <Route
@@ -109,6 +210,8 @@ function App() {
                   <ProtectedRoute
                     isLoggedIn={isLoggedIn}
                     element={SavedMovies}
+                    savedMovies={savedMovies}
+                    onDeleteMovieClick={onDeleteMovieClick}
                   />
                 }
               ></Route>
@@ -130,7 +233,7 @@ function App() {
                   isLoggedIn ? (
                     <Navigate to="/" />
                   ) : (
-                    <Register handleSingIn={() => setLoggedIn(true)} />
+                    <Register handleSignIn={handleSignIn} />
                   )
                 }
               />
@@ -140,11 +243,10 @@ function App() {
                   isLoggedIn ? (
                     <Navigate to="/" />
                   ) : (
-                    <Login handleLogin={() => setLoggedIn(true)} />
+                    <Login handleLogin={handleLogin} />
                   )
                 }
               />
-
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
           </main>

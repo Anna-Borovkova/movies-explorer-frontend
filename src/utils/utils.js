@@ -1,11 +1,13 @@
 import { shortMovieDuration } from "./config";
 
-function editMovieUrl(initialMovies) {
-  initialMovies.forEach((movie) => {
-    movie.thumbnail = `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`;
-    movie.image = `https://api.nomoreparties.co${movie.image.url}`;
-  });
-  return initialMovies;
+function editMovieUrl(movie) {
+  movie = `https://api.nomoreparties.co${movie.image.url}`;
+  return movie;
+}
+
+function editMovieThumbnail(movie) {
+  movie = `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`;
+  return movie;
 }
 
 function editMovieDuration(duration) {
@@ -18,24 +20,42 @@ function editMovieDuration(duration) {
   }
 }
 
-function filterShortMovies(initialMovies) {
-  return initialMovies.filter((movie) => movie.duration <= shortMovieDuration);
+function filterShortMovies(movies) {
+  return movies.filter((movie) => movie.duration <= shortMovieDuration);
 }
 
-function findMovies(initialMovies, keyWord) {
-  return initialMovies.filter((movie) => {
+function findMovies(movies, words, shortSearched) {
+  const filteredMovies = movies.filter((movie) => {
     let isSuitableValue = false;
-    if (movie.nameRu) {
-      isSuitableValue = movie.nameRu
-        .loLowerCase()
-        .includes(keyWord.loLowerCase());
-    } else if (movie.nameEn) {
-      isSuitableValue = movie.nameEn
-        .loLowerCase()
-        .includes(keyWord.loLowerCase());
+    if (movie.nameRU) {
+      isSuitableValue = String(movie.nameRU)
+        .toLowerCase()
+        .includes(words.toLowerCase());
+    } else if (movie.nameEN) {
+      isSuitableValue = movie.nameEN
+        .toLowerCase()
+        .includes(words.loLowerCase());
     }
     return isSuitableValue;
   });
+  if (shortSearched) {
+    return filterShortMovies(filteredMovies);
+  } else {
+    return filteredMovies;
+  }
 }
 
-export { editMovieUrl, editMovieDuration, filterShortMovies, findMovies };
+function checkSavedMovie(savedMovies, movie) {
+  return savedMovies.find((savedMovie) => {
+    return savedMovie.movieId === movie.id;
+  });
+}
+
+export {
+  editMovieUrl,
+  editMovieThumbnail,
+  editMovieDuration,
+  filterShortMovies,
+  findMovies,
+  checkSavedMovie,
+};

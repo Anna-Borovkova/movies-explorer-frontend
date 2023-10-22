@@ -1,14 +1,11 @@
 import "./Login.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Form from "../Form/Form";
 import Input from "../Input/Input";
 import FormPage from "../FormPage/FormPage";
 import { useFormWithValidation } from "../../hooks/useValidation";
-import { mainApi } from "../../utils/Api/MainApi";
 
 function Login({ handleLogin }) {
-  const navigate = useNavigate();
   const [signInError, setSignInError] = useState("");
 
   const { values, errors, handleChange, isValid, setIsValid, resetForm } =
@@ -16,15 +13,7 @@ function Login({ handleLogin }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    mainApi
-      .signIn(values.email, values.password)
-      .then(() => {
-        handleLogin();
-        navigate("/movies");
-      })
-      .catch((err) => {
-        err.then((e) => setSignInError(e.message));
-      });
+    handleLogin(values.email, values.password, setSignInError);
   }
 
   return (

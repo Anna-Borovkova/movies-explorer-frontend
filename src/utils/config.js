@@ -9,8 +9,26 @@ export const shortMovieDuration = 40;
 
 export const localStorageNames = {
   keywords: "keywords",
-  // initialMovies: "initialMovies",
-  // filteredMovies: "filteredMovies",
-  // filteredShortMovies: "filteredShortMovies",
+  filteredMovies: "filteredMovies",
   areShortMoviesSearched: "areShortMoviesSearched",
+  savedKeywords: "savedKeywords",
+  filteredSavedMovies: "filteredSavedMovies",
+  areShortSavedMoviesSearched: "areShortSavedMoviesSearched",
+};
+
+export const addSettings = {
+  desktopInitial: 16,
+  desktopAdded: 4,
+  bigTabletInitial: 12,
+  bigTabletAdded: 3,
+  smallTabletInitial: 8,
+  smallTabletAdded: 2,
+  mobileInitial: 5,
+  mobileAdded: 2,
+};
+
+export const pageSettings = {
+  maxWidthBigTablet: 1279,
+  maxWidthSmallTablet: 989,
+  maxWidthMobile: 767,
 };

@@ -10,8 +10,12 @@
   list-style-type: none;
 }
 
-.movie-card__img {
+.movie-card__link {
   grid-area: img;
+  width: 100%;
+}
+
+.movie-card__img {
   object-fit: cover;
   height: 151px;
   object-position: center center;
@@ -44,6 +48,28 @@
   line-height: 13px;
   color: rgba(139, 139, 139, 1);
   border-top: 1px solid rgba(66, 66, 66, 1);
+}
+
+.movie-card__delete-button {
+  margin: 0;
+  padding: 0;
+  grid-area: button;
+  background-color: rgba(49, 49, 49, 1);
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 24px;
+  background-image: url(../../images/delete-button.svg);
+  cursor: pointer;
+  background-position: center;
+  background-size: 10px 8px;
+  background-repeat: no-repeat;
+  opacity: 0;
+}
+
+.movie-card__delete-button:hover {
+  opacity: 1;
+  transition: 0.5s;
 }
 
 @media (max-width: 780px) {

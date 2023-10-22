@@ -2,46 +2,53 @@ import "./Movies.css";
 import { useContext, useEffect, useState } from "react";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import AddMovies from "../AddMovies/AddMovies";
-import MovieImageFirst from "../../images/movie-image-1.png";
+import Preloader from "../Preloader/Preloader";
 import { moviesApi } from "../../utils/Api/MoviesApi";
 import { localStorageNames } from "../../utils/config";
-import { editMovieUrl, filterShortMovies } from "../../utils/utils";
+import { findMovies } from "../../utils/utils";
+import CurrentUserContext from "../../context/CurrentUserContext";
 
 function Movies(props) {
-  const [areShortMoviesSearched, setShortMoviesSearched] = useState(true);
+  const currentUser = useContext(CurrentUserContext);
+
+  const [areShortMoviesSearched, setAreShortMoviesSearched] = useState(false);
   const [initialMovies, setInitialMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
-  // const [filteredShortMovies, setFilteredShortMovies] = useState([]);
   const [notFound, setNotFound] = useState(false);
   const [resultMessage, setResultMessage] = useState("");
+  const [keywords, setKeywords] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  // посмотреть как будет выглядеть поставленный лайк
-  const isSaved = true;
-
-  const buttonClassName = isSaved
-    ? "movies-card__save-button movies-card__save-button_active"
-    : "movies-card__save-button";
-
-  function filterMovies() {}
-
-  function handleSearchMovies(keyword) {
-    localStorage.setItem(localStorageNames.keywords, keyword);
+  function filterMovies(movies, words, shortSearched) {
+    const foundMovies = findMovies(movies, words, shortSearched);
+    if (foundMovies.length === 0) {
+      setNotFound(true);
+      setResultMessage("Ничего не найдено");
+    } else {
+      setNotFound(false);
+    }
+    setFilteredMovies(foundMovies);
     localStorage.setItem(
-      localStorageNames.areShortMoviesChosen,
+      `${localStorageNames.filteredMovies}`,
+      JSON.stringify(foundMovies)
+    );
+  }
+
+  function handleSearchMovies(words) {
+    setKeywords(words);
+    localStorage.setItem(`${localStorageNames.keywords}`, words);
+    localStorage.setItem(
+      `${localStorageNames.areShortMoviesSearched}`,
       areShortMoviesSearched
     );
-    if (initialMovies === 0) {
-      //включаем лоадер
+
+    if (initialMovies.length === 0) {
+      setIsLoading(true);
       moviesApi
         .getAllMovies()
         .then((movies) => {
           setInitialMovies(movies);
-          filterMovies(
-            editMovieUrl(initialMovies),
-            keyword,
-            areShortMoviesSearched
-          );
+          filterMovies(movies, words, areShortMoviesSearched);
         })
         .catch(() => {
           setNotFound(true);
@@ -49,28 +56,57 @@ function Movies(props) {
             "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."
           );
         })
-        .finally
-        //выключаем лоадер
-        ();
+        .finally(() => {
+          setIsLoading(false);
+        });
     } else {
-      filterMovies(initialMovies, keyword, areShortMoviesSearched);
+      filterMovies(initialMovies, words, areShortMoviesSearched);
     }
-    console.log(initialMovies);
-    console.log(areShortMoviesSearched);
   }
 
   function handleSearchShortMovies() {
-    setShortMoviesSearched(!areShortMoviesSearched);
-    if (areShortMoviesSearched) {
-      setFilteredMovies(filterShortMovies(initialMovies));
-    } else {
-      setFilteredMovies(initialMovies);
-    }
+    setAreShortMoviesSearched(!areShortMoviesSearched);
+    filterMovies(initialMovies, keywords, !areShortMoviesSearched);
     localStorage.setItem(
-      localStorageNames.areShortMoviesSearched,
-      areShortMoviesSearched
+      `${localStorageNames.areShortMoviesSearched}`,
+      !areShortMoviesSearched
     );
   }
+
+  useEffect(() => {
+    if (
+      localStorage.getItem(`${localStorageNames.areShortMoviesSearched}`) ===
+      "true"
+    ) {
+      setAreShortMoviesSearched(true);
+    } else {
+      setAreShortMoviesSearched(false);
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    const previousKeywords = localStorage.getItem(
+      `${localStorageNames.keywords}`
+    );
+    if (previousKeywords) {
+      setKeywords(previousKeywords);
+    } else {
+      setKeywords("");
+    }
+  }, [currentUser, filteredMovies]);
+
+  useEffect(() => {
+    const previousMovies = JSON.parse(
+      localStorage.getItem(`${localStorageNames.filteredMovies}`)
+    );
+    if (previousMovies) {
+      setFilteredMovies(previousMovies);
+    } else {
+      setNotFound(true);
+      setResultMessage("Ничего не найдено");
+      setFilteredMovies([]);
+    }
+  }, [currentUser, areShortMoviesSearched]);
 
   return (
     <div className="movies">
@@ -78,21 +114,19 @@ function Movies(props) {
         handleSearchMovies={handleSearchMovies}
         areShortMoviesSearched={areShortMoviesSearched}
         handleSearchShortMovies={handleSearchShortMovies}
+        keywords={keywords}
       />
       {notFound ? (
         <div className="movies__not-found">{resultMessage}</div>
       ) : (
         <MoviesCardList
-          title="Киноальманах «100 лет дизайна»"
-          duration="1ч 42м"
-          img={MovieImageFirst}
-          trailerLink={""}
-        >
-          <button className={buttonClassName} />
-        </MoviesCardList>
+          filteredMovies={filteredMovies}
+          savedMovies={props.savedMovies}
+          onSaveMovieClick={props.onSaveMovieClick}
+          onDeleteMovieClick={props.onDeleteMovieClick}
+        ></MoviesCardList>
       )}
-
-      <AddMovies />
+      {isLoading ? <Preloader /> : null}
     </div>
   );
 }

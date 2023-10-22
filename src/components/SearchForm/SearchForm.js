@@ -3,14 +3,18 @@ import { useContext, useEffect, useState } from "react";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useFormWithValidation } from "../../hooks/useValidation";
 import { errorsMessages } from "../../utils/config";
+import CurrentUserContext from "../../context/CurrentUserContext";
 
 function SearchForm({
   handleSearchMovies,
   areShortMoviesSearched,
   handleSearchShortMovies,
+  keywords,
 }) {
-  const { values, errors, handleChange, isValid, setIsValid, resetForm } =
-    useFormWithValidation({});
+  const currentUser = useContext(CurrentUserContext);
+  const { values, handleChange, isValid, setIsValid } = useFormWithValidation(
+    {}
+  );
 
   const [searchError, setSearchError] = useState("");
 
@@ -28,6 +32,13 @@ function SearchForm({
   const searchFormButtonClassName = isValid
     ? "search__form-button"
     : "search__form-button search__form-button_disabled";
+
+  useEffect(() => {
+    if (keywords) {
+      values.search = keywords;
+      setIsValid(true);
+    }
+  }, [currentUser, keywords]);
 
   return (
     <section className="search">

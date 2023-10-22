@@ -1,33 +1,17 @@
 import "./Register.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Form from "../Form/Form";
 import Input from "../Input/Input";
 import FormPage from "../FormPage/FormPage";
 import { useFormWithValidation } from "../../hooks/useValidation";
-import { mainApi } from "../../utils/Api/MainApi";
 
-function Register({ handleSingIn }) {
-  const navigate = useNavigate();
-
+function Register({ handleSignIn }) {
   const [signUpError, setSignUpError] = useState("");
-  const { values, errors, handleChange, isValid, setIsValid, resetForm } =
-    useFormWithValidation({});
+  const { values, errors, handleChange, isValid } = useFormWithValidation({});
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    mainApi
-      .signUp(values.name, values.email, values.password)
-      .then((res) => {
-        return mainApi.signIn(values.email, values.password);
-      })
-      .then(() => {
-        handleSingIn();
-        navigate("/movies");
-      })
-      .catch((err) => {
-        err.then((e) => setSignUpError(e.message));
-      });
+    handleSignIn(values.name, values.email, values.password, setSignUpError);
   }
 
   return (

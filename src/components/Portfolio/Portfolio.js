@@ -30,7 +30,6 @@ function Portfolio(props) {
             target="_blank"
           >
             <div>Одностраничное приложение</div>
-            
           </a>
         </li>
       </ul>
