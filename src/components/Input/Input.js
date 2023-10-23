@@ -1,6 +1,6 @@
 import "./Input.css";
 
-function Input({ title, type, name, id }) {
+function Input({ title, type, name, id, value, onChange, pattern, error }) {
   return (
     <div className="input">
       <p className="input__title">{title}</p>
@@ -10,7 +10,11 @@ function Input({ title, type, name, id }) {
         type={type}
         name={name}
         id={id}
+        value={value}
+        onChange={onChange}
+        pattern={pattern}
       />
+      <span className="input__error-message">{error}</span>
     </div>
   );
 }
