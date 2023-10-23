@@ -64,13 +64,34 @@ function Movies(props) {
     }
   }
 
-  function handleSearchShortMovies() {
+  function handleSearchShortMovies(words) {
     setAreShortMoviesSearched(!areShortMoviesSearched);
-    filterMovies(initialMovies, keywords, !areShortMoviesSearched);
     localStorage.setItem(
       `${localStorageNames.areShortMoviesSearched}`,
       !areShortMoviesSearched
     );
+    setKeywords(words);
+    localStorage.setItem(`${localStorageNames.keywords}`, words);
+    if (initialMovies.length === 0) {
+      setIsLoading(true);
+      moviesApi
+        .getAllMovies()
+        .then((movies) => {
+          setInitialMovies(movies);
+          filterMovies(movies, words, !areShortMoviesSearched);
+        })
+        .catch(() => {
+          setNotFound(true);
+          setResultMessage(
+            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."
+          );
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      filterMovies(initialMovies, words, !areShortMoviesSearched);
+    }
   }
 
   useEffect(() => {
@@ -102,8 +123,6 @@ function Movies(props) {
     if (previousMovies) {
       setFilteredMovies(previousMovies);
     } else {
-      setNotFound(true);
-      setResultMessage("Ничего не найдено");
       setFilteredMovies([]);
     }
   }, [currentUser, areShortMoviesSearched]);

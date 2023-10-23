@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 function NotFound() {
   const navigate = useNavigate();
+
   function goBack() {
+    // console.log("нажали");
     navigate(-1);
   }
+
   return (
     <section className="not-found-error">
       <div className="not-found-error-about">

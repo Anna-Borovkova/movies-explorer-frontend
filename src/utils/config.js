@@ -14,6 +14,7 @@ export const localStorageNames = {
   savedKeywords: "savedKeywords",
   filteredSavedMovies: "filteredSavedMovies",
   areShortSavedMoviesSearched: "areShortSavedMoviesSearched",
+  start: "start",
 };
 
 export const addSettings = {

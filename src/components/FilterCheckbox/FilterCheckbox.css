@@ -35,6 +35,16 @@
   left: 2px;
 }
 
+.checkbox__switcher_disabled {
+  position: absolute;
+  background-color: rgba(52, 52, 52, 1);
+  border: 1px solid rgba(52, 52, 52, 1);
+  width: 15px;
+  height: 15px;
+  border-radius: 10px;
+  left: 2px;
+}
+
 .checkbox__title {
   margin: 0;
   position: absolute;
@@ -49,6 +59,11 @@
 .checkbox__input:checked + .checkbox__switcher {
   left: 18px;
   background-color: rgba(43, 224, 128, 1);
+}
+
+.checkbox__input:checked + .checkbox__switcher_disabled {
+  left: 18px;
+  background-color: rgba(52, 52, 52, 1);
 }
 
 @media (max-width: 800px) {

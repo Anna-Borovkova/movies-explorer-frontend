@@ -1,15 +1,21 @@
 import "./FilterCheckbox.css";
 
-function FilterCheckbox({ areShortMoviesSearched, handleSearchShortMovies }) {
+function FilterCheckbox({ areShortMoviesSearched, onChange, disabled }) {
+
+  const checkboxSwitcherClassName = !disabled
+    ? "checkbox__switcher"
+    : "checkbox__switcher checkbox__switcher_disabled";
+
   return (
     <div className="checkbox">
       <input
         className="checkbox__input"
         type="checkbox"
-        onChange={handleSearchShortMovies}
+        onChange={onChange}
         checked={areShortMoviesSearched ? true : false}
+        disabled = {disabled}
       />
-      <div className="checkbox__switcher"></div>
+      <div className={checkboxSwitcherClassName}></div>
       <span className="checkbox__title">Короткометражки</span>
     </div>
   );

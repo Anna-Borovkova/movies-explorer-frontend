@@ -40,6 +40,10 @@ function SearchForm({
     }
   }, [currentUser, keywords]);
 
+  function handleChangeCheckbox() {
+    handleSearchShortMovies(values.search);
+  }
+
   return (
     <section className="search">
       <div className="search__container">
@@ -69,7 +73,8 @@ function SearchForm({
         </form>
         <FilterCheckbox
           areShortMoviesSearched={areShortMoviesSearched}
-          handleSearchShortMovies={handleSearchShortMovies}
+          onChange={handleChangeCheckbox}
+          disabled={!isValid}
         />
       </div>
       <span className="search__error-message">{searchError}</span>

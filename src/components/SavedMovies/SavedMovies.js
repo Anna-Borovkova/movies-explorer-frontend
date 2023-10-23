@@ -41,17 +41,15 @@ function SavedMovies(props) {
     filterSavedMovies(props.savedMovies, words, areShortSavedMoviesSearched);
   }
 
-  function handleSearchShortSavedMovies() {
+  function handleSearchShortSavedMovies(words) {
     setAreShortSavedMoviesSearched(!areShortSavedMoviesSearched);
-    filterSavedMovies(
-      props.savedMovies,
-      savedKeywords,
-      !areShortSavedMoviesSearched
-    );
     localStorage.setItem(
       `${localStorageNames.areShortSavedMoviesSearched}`,
       !areShortSavedMoviesSearched
     );
+    setSavedKeywords(words);
+    localStorage.setItem(`${localStorageNames.savedKeywords}`, words);
+    filterSavedMovies(props.savedMovies, words, !areShortSavedMoviesSearched);
   }
 
   useEffect(() => {
@@ -83,9 +81,6 @@ function SavedMovies(props) {
     );
     if (previousMovies) {
       setFilteredSavedMovies(previousMovies);
-    } else {
-      setNotFound(true);
-      setResultMessage("Ничего не найдено");
     }
   }, [currentUser]);
 
@@ -97,18 +92,18 @@ function SavedMovies(props) {
         handleSearchShortMovies={handleSearchShortSavedMovies}
         keywords={savedKeywords}
       />
-      <div className="movies__not-found">
-        Фильмы, согласно критериям поиска:
-      </div>
+
       {notFound ? (
         <div className="movies__not-found-message">{resultMessage}</div>
       ) : (
-        <MoviesCardList
-          filteredMovies={filteredSavedMovies}
-          savedMovies={props.savedMovies}
-          onSaveMovieClick={props.onSaveMovieClick}
-          onDeleteMovieClick={props.onDeleteMovieClick}
-        ></MoviesCardList>
+        <>
+          <MoviesCardList
+            filteredMovies={filteredSavedMovies}
+            savedMovies={props.savedMovies}
+            onSaveMovieClick={props.onSaveMovieClick}
+            onDeleteMovieClick={props.onDeleteMovieClick}
+          ></MoviesCardList>
+        </>
       )}
       <div className="movies__not-found">Все сохраненные фильмы:</div>
       <MoviesCardList
